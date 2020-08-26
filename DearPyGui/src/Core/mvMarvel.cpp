@@ -70,6 +70,7 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
 
+		AddEditorCommands(parsers);
 		AddDrawingCommands(parsers);
 		AddPlotCommands(parsers);
 		AddLogCommands(parsers);
@@ -100,6 +101,83 @@ namespace Marvel {
 		delete mapping;
 
 		return result;
+	}
+
+	PyObject* set_editor_error_marker(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int line;
+		const char* message;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_editor_error_marker"].parse(args, kwargs, __FUNCTION__, 
+			&name, &line, &message))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " editor does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Editor)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " is not an editor.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvEditor* aeditor = static_cast<mvEditor*>(item);
+		auto ed = aeditor->getEditor();
+		ed->SetErrorMarkers({ std::make_pair(line, std::string(message)) });
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_editor_breakpoint(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int line;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_editor_breakpoint"].parse(args, kwargs, __FUNCTION__,
+			&name, &line))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " editor does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Editor)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " is not an editor.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvEditor* aeditor = static_cast<mvEditor*>(item);
+		auto ed = aeditor->getEditor();
+		ed->SetBreakpoints({ line });
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* add_editor(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_editor"].parse(args, kwargs, __FUNCTION__, &name, &parent, &before))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* item = new mvEditor("", name);
+		AddItemWithRuntimeChecks(item, parent, before);
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -6198,6 +6276,11 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		// editor commands
+		ADD_PYTHON_FUNCTION(add_editor)
+		ADD_PYTHON_FUNCTION(set_editor_error_marker)
+		ADD_PYTHON_FUNCTION(set_editor_breakpoint)
+
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
 		ADD_PYTHON_FUNCTION(add_additional_font)

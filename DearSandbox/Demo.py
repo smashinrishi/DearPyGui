@@ -39,6 +39,7 @@ end_menu_bar()
 
 # launchers
 add_group("Launch Group", width=200)
+add_button("Editor", callback="Launcher")
 add_button("Widgets", callback="Launcher")
 add_button("Drawing API", callback="Launcher")
 add_button("Plots, Graphs and Charts", callback="Launcher")
@@ -52,6 +53,21 @@ add_button("Tables", callback="Launcher")
 add_button("Open File", callback="OpenFile")
 add_button("Open Directory", callback="OpenDirectory")
 end_group()
+
+# editor
+add_window("Editor##dialog", 200, 200, hide=True)
+add_group("EditorGroup", width=200)
+add_button("Mark Errors##editor", callback="editor_callback")
+end_group()
+add_same_line()
+add_editor("Editor 1")
+set_value("Editor 1", "import random\n\n def callback(sender):\n    print(123)\n\ncallback()\n")
+end_window()
+
+def editor_callback(sender, data):
+
+    set_editor_error_marker("Editor 1", 4, "error occured here")
+    set_editor_breakpoint("Editor 1", 2)
 
 # tables
 add_window("Tables##dialog", 500, 500, hide=True, on_close="closeit")

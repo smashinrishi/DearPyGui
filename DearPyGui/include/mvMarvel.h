@@ -13,6 +13,27 @@
 
 namespace Marvel {
 
+	static void AddEditorCommands(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_editor", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+		}, "Needs documentation", "None", "Drawing") });
+
+		parsers->insert({ "set_editor_error_marker", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "line"},
+			{mvPythonDataType::String, "message"},
+		}, "Needs documentation", "None", "Drawing") });
+
+		parsers->insert({ "set_editor_breakpoint", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "line"},
+		}, "Needs documentation", "None", "Drawing") });
+	}
+
 	static void AddDrawingCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_drawing", mvPythonParser({

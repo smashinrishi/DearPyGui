@@ -62,6 +62,7 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvPlot.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
+	"src/Core/AppItems/mvEditor.cpp"
 
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"

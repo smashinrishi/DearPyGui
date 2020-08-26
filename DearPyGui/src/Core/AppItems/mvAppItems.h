@@ -16,6 +16,7 @@
 #include "Core/AppItems/mvPlot.h"
 #include "Core/AppItems/mvImage.h"
 #include "Core/AppItems/mvTable.h"
+#include "Core/AppItems/mvEditor.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
