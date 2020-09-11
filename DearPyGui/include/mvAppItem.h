@@ -135,7 +135,7 @@ namespace Marvel {
         virtual void                        setHeight                 (int height)              { m_height = height; }
         inline void                         setHovered                (bool value)              { m_hovered = value; }
         inline void                         setActive                 (bool value)              { m_active = value; }
-        inline void                         setFocused                (bool value)              { m_focused = value; }
+        virtual void                        setFocused                (bool value)              { m_focused = value; }
         inline void                         setClicked                (bool value)              { m_clicked = value; }
         inline void                         setVisible                (bool value)              { m_visible = value; }
         inline void                         setEdited                 (bool value)              { m_edited = value; }

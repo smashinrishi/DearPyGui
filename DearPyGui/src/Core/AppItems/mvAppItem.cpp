@@ -285,7 +285,7 @@ namespace Marvel{
 			child->showAll();
 	}
 
-	void mvAppItem::hideAll()
+	void mvAppItem::hideAll() 
 	{
 		if (getType() != mvAppItemType::Tooltip)
 			m_show = false;

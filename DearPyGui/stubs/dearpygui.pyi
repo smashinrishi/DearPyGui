@@ -1174,6 +1174,10 @@ def set_vsync(value: bool) -> None:
 	"""Sets vsync on or off."""
 	...
 
+def set_window_focused(window: str) -> None:
+	"""Sets a window to be focused."""
+	...
+
 def set_window_pos(window: str, x: float, y: float) -> None:
 	"""Sets a windows position"""
 	...

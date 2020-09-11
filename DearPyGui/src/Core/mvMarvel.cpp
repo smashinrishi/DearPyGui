@@ -6344,6 +6344,43 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* set_window_focused(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* window;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_window_focused"].parse(args, kwargs, __FUNCTION__, &window))
+			return GetPyNone();
+
+		if (std::string(window) == "logger##standard")
+		{
+			return GetPyNone();
+		}
+
+		// check if item is a regular item
+		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
+
+		// check if item is a standard window
+		mvStandardWindow* swindow = nullptr;
+		if (awindow == nullptr)
+			swindow = mvApp::GetApp()->getStandardWindow(window);
+		else
+		{
+			awindow->show();
+			awindow->setFocused(true);
+			return GetPyNone();
+		}
+
+		if (swindow == nullptr)
+		{
+			ThrowPythonException(window + std::string(" window was not found"));
+			return GetPyNone();
+		}
+		else
+		{
+			return GetPyNone();
+		}
+	}
+
 	PyObject* set_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* popup;
@@ -7182,6 +7219,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_theme)
 		ADD_PYTHON_FUNCTION(set_render_callback)
 		ADD_PYTHON_FUNCTION(set_item_callback)
+		ADD_PYTHON_FUNCTION(set_window_focused)
 		ADD_PYTHON_FUNCTION(set_item_tip)
 		ADD_PYTHON_FUNCTION(set_item_width)
 		ADD_PYTHON_FUNCTION(set_item_height)

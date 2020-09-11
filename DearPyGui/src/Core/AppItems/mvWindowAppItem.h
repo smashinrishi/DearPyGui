@@ -57,6 +57,7 @@ namespace Marvel {
 
 		void setWidth (int width) override { m_width = width; m_dirty_size = true; }
 		void setHeight(int height) override { m_height = height; m_dirty_size = true; }
+		void setFocused(bool value) override { m_focused = value; m_dirty_focus = true; }
 
 		[[nodiscard]] mvVec2 getWindowPos() const
 		{
@@ -101,6 +102,13 @@ namespace Marvel {
 				m_dirty_size = false;
 			}
 
+			if (m_dirty_focus)
+			{
+				ImGui::SetNextWindowCollapsed(false);
+				ImGui::SetNextWindowFocus();
+				m_dirty_focus = false;
+			}
+
 			
 			pushColorStyles();
 
@@ -131,7 +139,7 @@ namespace Marvel {
 
 				item->setHovered(ImGui::IsItemHovered());
 				item->setActive(ImGui::IsItemActive());
-				item->setFocused(ImGui::IsItemFocused());
+				m_focused = (ImGui::IsItemFocused());
 				item->setClicked(ImGui::IsItemClicked());
 				item->setVisible(ImGui::IsItemVisible());
 				item->setEdited(ImGui::IsItemEdited());
@@ -147,7 +155,7 @@ namespace Marvel {
 
 			setVisible(true);
 			setHovered(ImGui::IsWindowHovered());
-			setFocused(ImGui::IsWindowFocused());
+			m_focused = ImGui::IsWindowFocused();
 			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
 			setActivated(ImGui::IsWindowCollapsed());
 
@@ -199,6 +207,7 @@ namespace Marvel {
 		PyObject*        m_closing_callback;
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
+		bool             m_dirty_focus = true;
 		bool             m_closing = true;
 		
 

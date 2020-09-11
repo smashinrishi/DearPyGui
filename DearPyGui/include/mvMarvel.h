@@ -1144,6 +1144,11 @@ namespace Marvel {
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
 		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
 
+
+		parsers->insert({ "set_window_focused", mvPythonParser({
+			{mvPythonDataType::String, "window"}
+		}, "Sets a window to be in focused.", "None", "Widget Commands") });
+
 		parsers->insert({ "set_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "popup"}
