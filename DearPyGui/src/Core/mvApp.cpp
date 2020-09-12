@@ -483,16 +483,21 @@ namespace Marvel {
 				}
 			}
 
+			//in the case that it still hasnt found event handler (such as the containers other than window we will propigate up till we hit window then use that window)
 			if (!handler_found)
 			{
-				for (auto& entrypair : m_standardWindows)
+				auto item = m_activeWindow;
+				while (eventHandler == NULL)
 				{
-					if (entrypair.first == m_activeWindow)
+					auto parent = getItem(item)->getParent();
+					auto parenttype = static_cast<mvWindowAppitem*>(parent);
+					eventHandler = static_cast<mvEventHandler*>(parenttype);
+					if (eventHandler != NULL)
 					{
-						eventHandler = static_cast<mvEventHandler*>(entrypair.second.window);
 						handler_found = true;
 						break;
 					}
+					else item = parent->getName();
 				}
 			}
 		}
