@@ -203,9 +203,6 @@ namespace Marvel {
 			else
 			{
 				dispatchRenderCallback<mvWindowAppitem>(mvAppItemType::Window, item);
-				dispatchRenderCallback<mvChild>(mvAppItemType::Child, item);
-				dispatchRenderCallback<mvPopup>(mvAppItemType::Popup, item);
-				dispatchRenderCallback<mvMenu>(mvAppItemType::Menu, item);
 			}
 		}
 
